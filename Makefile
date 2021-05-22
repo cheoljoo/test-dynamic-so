@@ -1,3 +1,4 @@
+# https://stackoverflow.com/questions/8941110/how-i-could-add-dir-to-path-in-makefile
 LD_LIBRARY_PATH := .:$(LD_LIBRARY_PATH)
 all: file.cpp test.cpp file.hpp test.hpp many.cpp many.hpp sstruct.cpp sstruct.hpp main.cpp
 	make com
