@@ -105,3 +105,4 @@ readelf -a ./libmy.so.0.0.0 > readelf.libmy.log
 - https://sonseungha.tistory.com/462?category=686290
 - http://egloos.zum.com/recipes/v/5010841
 - https://pu1et-panggg.tistory.com/32
+- https://www.technovelty.org/linux/stripping-shared-libraries.html
