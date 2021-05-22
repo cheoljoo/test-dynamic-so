@@ -94,7 +94,9 @@ readelf -a ./libmy.so.0.0.0 > readelf.libmy.log
         - use change_order's library
     - comparison between first and second execution
         - we can not find any changes when we change order of member functions.
-        - we can find enum value when we change the order of enum members.
+        - we can find changed enum value when we change the order of enum members.
+            - main.cpp : it is sure that main.cpp shows the enum value before changing because we did not compile about main.cpp
+            - library - print_enum(): it is sure that print_enum shows the changed enum value because we compiled in library.
     - readelf
         - c++ do the mangling for class member functions. so we can find all member functions symbols in .dynsym section
         - this result shows  they use the direct access (just offset in library)  instead of offset from each class.
