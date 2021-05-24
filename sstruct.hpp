@@ -1,4 +1,7 @@
 
+#ifndef _SSTRUCT_H_
+#define _SSTRUCT_H_
+
 #include <iostream>
 
 struct SStruct {
@@ -111,4 +114,7 @@ struct SStruct {
     void bbb();
 
 };
+
+#endif
+
 

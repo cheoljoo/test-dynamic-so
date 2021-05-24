@@ -1,4 +1,8 @@
 
+#ifndef _TEST_H_
+#define _TEST_H_
+
+
 #include <iostream>
 
 class Test {
@@ -13,4 +17,6 @@ public:
     virtual void bbb();
 
 };
+
+#endif
 

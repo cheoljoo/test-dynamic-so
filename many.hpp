@@ -1,4 +1,8 @@
 
+#ifndef _MANY_H_
+#define _MANY_H_
+
+
 #include <iostream>
 
 enum Color { 
@@ -125,4 +129,6 @@ public:
     virtual void print_enum();
 
 };
+
+#endif 
 
