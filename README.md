@@ -198,7 +198,7 @@ readelf -a ./libmy.so.0.0.0 > readelf.libmy.log
         - pointer : when we declare with new ->  class member funcitn order (ex. File* a = new File; )
         - enumeration order
     - Do not care
-        - pointer : when we declare without pointer (new) (ex. File a; )
+        - no-pointer : when we declare without pointer (new) (ex. File a; )
         - struct does not care about order both pointer (new) and no-pointer declaratin and drived.
 
 - explanation
