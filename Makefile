@@ -26,3 +26,8 @@ m: main.cpp
 	g++ -o m main.cpp 	-L./ -lmy
 	# export LD_LIBRARY_PATH=./
 
+clean:
+	/bin/rm -f *.o
+	/bin/rm -f */*.o
+	/bin/rm -f m
+	/bin/rm -f *.log

@@ -6,9 +6,9 @@ public:
     Test();
     ~Test();
 
-    virtual void bbb();
+    void bbb();
     int a = 0;
-    virtual void aaa();
+    void aaa();
     int b = 0;
     int c = 0;
 

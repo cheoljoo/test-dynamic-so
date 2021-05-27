@@ -4,7 +4,8 @@ dynamic so test - change order of member functions between using binary and reco
 # how to run
 - export LD_LIBRARY_PATH=./
 - make
-    - file.* test.* : has just 2 member functions
+    - file.* : has just 2 virtual member functions
+    - test.* : has just 2 non-virtual member functions
     - many.* sstruct.* : has more than 100 member functions
     - many.* : include enum
     - sstruct.* : no virtual function , use struct instead of class
@@ -12,6 +13,15 @@ dynamic so test - change order of member functions between using binary and reco
     - main.cpp : call functions
 
 # result
+- conclusion
+    - Do not change order
+        - pointer : when we declare with new ->  class virtual member function order (ex. File* a = new File; )
+        - enumeration order
+    - Do not care
+        - pointer  : non-virtual functions are not related with order.  (ex.  File* a = new File;  a-> aaa();  aaa function is not virtual function)
+        - no-pointer : when we declare without pointer (new) (ex. File a; )
+        - struct does not care about order both pointer (new) and no-pointer declaratin and drived.
+
 ```txt
 make com
 make[1]: Entering directory '/data01/cheoljoo.lee/code/test-dynamic-so'
@@ -24,7 +34,8 @@ g++ -shared -Wl,-soname,libmy.so.0 -o libmy.so.0.0.0 file.o test.o many.o sstruc
 make[1]: Leaving directory '/data01/cheoljoo.lee/code/test-dynamic-so'
 make m
 make[1]: Entering directory '/data01/cheoljoo.lee/code/test-dynamic-so'
-make[1]: 'm' is up to date.
+g++ -o m main.cpp 	-L./ -lmy
+# export LD_LIBRARY_PATH=./
 make[1]: Leaving directory '/data01/cheoljoo.lee/code/test-dynamic-so'
 ./m
 start
@@ -32,55 +43,57 @@ file constructor
 test constructor
 many constructor
 sstruct constructor
-file.aaa() : file aaa
-test.aaa() : test aaa
-file.bbb() : file bbb
-test.bbb() : test bbb
-sstruct.aaa00() : sstruct aaa00
-sstruct.aaa50() : sstruct aaa50
-sstruct.bbb() : sstruct bbb
-many.aaa00() : many aaa00
-many.aaa50() : many aaa50
-many.bbb() : many bbb
-main: color::red 0
+file.aaa() class virtual : file aaa
+test.aaa() class non-virtual: test aaa
+file.bbb() class virtual: file bbb
+test.bbb() class non-virtual: test bbb
+sstruct.aaa00() struct non-virtual: sstruct aaa00
+sstruct.aaa50() struct non-virtual: sstruct aaa50
+sstruct.bbb() struct non-virtual: sstruct bbb
+many.aaa00() class virtual: many aaa00
+many.aaa50() class virtual: many aaa50
+many.bbb() class virtual: many bbb
+main: enum color::red 0
 color red 0
 color blue 2
 global_0 0
 end
 file constructor
+test constructor
 many constructor
 sstruct constructor
-pfile->aaa() : file aaa
-pmany->aaa00() : many aaa00
-pstruct->aaa00() : sstruct aaa00
-pstruct->bbb() : sstruct bbb
+pfile->aaa() class virtual pointer: file aaa
+ptest->aaa() class non-virtual pointer: test aaa
+pmany->aaa00() class virtual pointer: many aaa00
+pstruct->aaa00() struct non-virtual pointer: sstruct aaa00
+pstruct->bbb() struct non-virtual pointer: sstruct bbb
 many constructor
 drive1 constructor
-sstruct constructor
+many constructor
 drive2 constructor
-dr1.ccc() : drive1 ccc
-dr1.aaa00() of Many : many aaa00
-dr1.bbb() of Many : many bbb
-dr2.aaa00() of SStruct : sstruct aaa00
-dr2.bbb() of SStruct : sstruct bbb
-dr2.ccc() : drive2 ccc
+dr1.ccc() virtual drived class: drive1 ccc
+dr1.aaa00() of Many class: many aaa00
+dr1.bbb() of Many class: many bbb
+dr2.ccc() : non-virtual drived classdrive2 ccc
+dr2.aaa00() of SStruct struct: many aaa00
+dr2.bbb() of SStruct struct: many bbb
 many constructor
 drive1 constructor
-sstruct constructor
-drive2 constructor
-pdr1->ccc() : drive1 ccc
-pdr1->aaa00() of Many : many aaa00
-pdr1->bbb() of Many : many bbb
-pdr2->aaa00() of SStruct : sstruct aaa00
-pdr2->bbb() of SStruct : sstruct bbb
-pdr2->ccc() : drive2 ccc
 many constructor
+drive2 constructor
+pdr1->ccc() virtual drived class pointer:drive1 ccc
+pdr1->aaa00() of Many class pointer: many aaa00
+pdr1->bbb() of Many class pointer: many bbb
+pdr2->ccc() non-virtual drived Many pointer: drive2 ccc
+pdr2->aaa00() of Many class pointer: many aaa00
+pdr2->bbb() of Many class pointer: many bbb
+sstruct constructor
 driveStruct constructor
-pdrs->ccc() : driveStruct ccc
-pdrs->aaa00() of Many : many aaa00
-pdrs->bbb() of Many : many bbb
+pdrs->ccc() non-virtual drived pointer: driveStruct ccc
+pdrs->aaa00() of SStruct struct pointer : sstruct aaa00
+pdrs->bbb() of SStruct struct pointer : sstruct bbb
 drive2 destructor
-sstruct destructor
+many destructor
 drive1 destructor
 many destructor
 sstruct destructor
@@ -104,55 +117,57 @@ file constructor
 test constructor
 many constructor
 sstruct constructor
-file.aaa() : file aaa
-test.aaa() : test aaa
-file.bbb() : file bbb
-test.bbb() : test bbb
-sstruct.aaa00() : sstruct aaa00
-sstruct.aaa50() : sstruct aaa50
-sstruct.bbb() : sstruct bbb
-many.aaa00() : many aaa00
-many.aaa50() : many aaa50
-many.bbb() : many bbb
-main: color::red 0
+file.aaa() class virtual : file aaa
+test.aaa() class non-virtual: test aaa
+file.bbb() class virtual: file bbb
+test.bbb() class non-virtual: test bbb
+sstruct.aaa00() struct non-virtual: sstruct aaa00
+sstruct.aaa50() struct non-virtual: sstruct aaa50
+sstruct.bbb() struct non-virtual: sstruct bbb
+many.aaa00() class virtual: many aaa00
+many.aaa50() class virtual: many aaa50
+many.bbb() class virtual: many bbb
+main: enum color::red 0
 color red 1
 color blue 2
 global_0 1
 end
 file constructor
+test constructor
 many constructor
 sstruct constructor
-pfile->aaa() : file bbb
-pmany->aaa00() : many bbb
-pstruct->aaa00() : sstruct aaa00
-pstruct->bbb() : sstruct bbb
+pfile->aaa() class virtual pointer: file bbb
+ptest->aaa() class non-virtual pointer: test aaa
+pmany->aaa00() class virtual pointer: many bbb
+pstruct->aaa00() struct non-virtual pointer: sstruct aaa00
+pstruct->bbb() struct non-virtual pointer: sstruct bbb
 many constructor
 drive1 constructor
-sstruct constructor
+many constructor
 drive2 constructor
-dr1.ccc() : drive1 ccc
-dr1.aaa00() of Many : many aaa00
-dr1.bbb() of Many : many bbb
-dr2.aaa00() of SStruct : sstruct aaa00
-dr2.bbb() of SStruct : sstruct bbb
-dr2.ccc() : drive2 ccc
+dr1.ccc() virtual drived class: drive1 ccc
+dr1.aaa00() of Many class: many aaa00
+dr1.bbb() of Many class: many bbb
+dr2.ccc() : non-virtual drived classdrive2 ccc
+dr2.aaa00() of SStruct struct: many aaa00
+dr2.bbb() of SStruct struct: many bbb
 many constructor
 drive1 constructor
-sstruct constructor
-drive2 constructor
-pdr1->ccc() : drive1 ccc
-pdr1->aaa00() of Many : many bbb
-pdr1->bbb() of Many : many aaa98
-pdr2->aaa00() of SStruct : sstruct aaa00
-pdr2->bbb() of SStruct : sstruct bbb
-pdr2->ccc() : drive2 ccc
 many constructor
+drive2 constructor
+pdr1->ccc() virtual drived class pointer:drive1 ddd
+pdr1->aaa00() of Many class pointer: many bbb
+pdr1->bbb() of Many class pointer: many aaa98
+pdr2->ccc() non-virtual drived Many pointer: drive2 ccc
+pdr2->aaa00() of Many class pointer: many bbb
+pdr2->bbb() of Many class pointer: many aaa98
+sstruct constructor
 driveStruct constructor
-pdrs->ccc() : driveStruct ccc
-pdrs->aaa00() of Many : many bbb
-pdrs->bbb() of Many : many aaa98
+pdrs->ccc() non-virtual drived pointer: driveStruct ccc
+pdrs->aaa00() of SStruct struct pointer : sstruct aaa00
+pdrs->bbb() of SStruct struct pointer : sstruct bbb
 drive2 destructor
-sstruct destructor
+many destructor
 drive1 destructor
 many destructor
 sstruct destructor
@@ -170,36 +185,32 @@ diff 1.log 2.log
 < global_0 0
 ---
 > global_0 1
-24,25c24,25
-< pfile->aaa() : file aaa
-< pmany->aaa00() : many aaa00
+25c25
+< pfile->aaa() class virtual pointer: file aaa
 ---
-> pfile->aaa() : file bbb
-> pmany->aaa00() : many bbb
-43,44c43,44
-< pdr1->aaa00() of Many : many aaa00
-< pdr1->bbb() of Many : many bbb
+> pfile->aaa() class virtual pointer: file bbb
+27c27
+< pmany->aaa00() class virtual pointer: many aaa00
 ---
-> pdr1->aaa00() of Many : many bbb
-> pdr1->bbb() of Many : many aaa98
-51,52c51,52
-< pdrs->aaa00() of Many : many aaa00
-< pdrs->bbb() of Many : many bbb
+> pmany->aaa00() class virtual pointer: many bbb
+44,46c44,46
+< pdr1->ccc() virtual drived class pointer:drive1 ccc
+< pdr1->aaa00() of Many class pointer: many aaa00
+< pdr1->bbb() of Many class pointer: many bbb
 ---
-> pdrs->aaa00() of Many : many bbb
-> pdrs->bbb() of Many : many aaa98
+> pdr1->ccc() virtual drived class pointer:drive1 ddd
+> pdr1->aaa00() of Many class pointer: many bbb
+> pdr1->bbb() of Many class pointer: many aaa98
+48,49c48,49
+< pdr2->aaa00() of Many class pointer: many aaa00
+< pdr2->bbb() of Many class pointer: many bbb
+---
+> pdr2->aaa00() of Many class pointer: many bbb
+> pdr2->bbb() of Many class pointer: many aaa98
 make: [Makefile:13: all] Error 1 (ignored)
 readelf -a ./m > readelf.m.log
 readelf -a ./libmy.so.0.0.0 > readelf.libmy.log
 ```
-
-- conclusion
-    - Do not change order
-        - pointer : when we declare with new ->  class member funcitn order (ex. File* a = new File; )
-        - enumeration order
-    - Do not care
-        - no-pointer : when we declare without pointer (new) (ex. File a; )
-        - struct does not care about order both pointer (new) and no-pointer declaratin and drived.
 
 - explanation
     - first execution of ./m
